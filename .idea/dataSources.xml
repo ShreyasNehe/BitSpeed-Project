@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="identity_reconciliation_3b40@dpg-cn95tuv109ks739soqdg-a.singapore-postgres.render.com" uuid="bc29c84a-c245-4ad6-823e-dead6c640f43">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://dpg-cn95tuv109ks739soqdg-a.singapore-postgres.render.com:5432/identity_reconciliation_3b40</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+  </component>
+</project>
