@@ -47,7 +47,7 @@ func (s *contactRepo) FetchAllByLinkedID(linkedID uint) (sql_models.Contact, []s
 	var linkedContacts []sql_models.Contact
 	var primaryContact sql_models.Contact
 
-	res := s.db.Where("linkedId = ?", linkedID).
+	res := s.db.Where("linked_id = ?", linkedID).
 		Find(&linkedContacts).Order("created_at ASC")
 	if res.Error != nil {
 		fmt.Printf("%s | errMsg: %s", funcDesc, res.Error)
