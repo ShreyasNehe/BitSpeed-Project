@@ -1,6 +1,7 @@
 package app
 
 import (
+	"fmt"
 	"github.com/suresh024/identity_reconciliation/config"
 	"github.com/suresh024/identity_reconciliation/db"
 	"github.com/suresh024/identity_reconciliation/handler"
@@ -33,6 +34,7 @@ func setupRepos() {
 
 func Start() {
 	log.Println("identity_reconciliation - Backend Service starting")
+	fmt.Println("identity_reconciliation - Backend Service starting")
 	config.InitializeEnv()
 	db.InitializeDB()
 
@@ -41,4 +43,5 @@ func Start() {
 	setupHandlers()
 	runServer(h)
 	log.Println("identity_reconciliation - Backend Service started")
+	fmt.Println("identity_reconciliation - Backend Service started")
 }

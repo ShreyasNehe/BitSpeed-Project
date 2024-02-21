@@ -1,8 +1,8 @@
 package model
 
 type ContactFilter struct {
-	Email       string `json:"email"`
-	PhoneNumber string `json:"phoneNumber"`
+	Email       *string `json:"email"`
+	PhoneNumber *string `json:"phoneNumber"`
 }
 
 type ContactResponse struct {
