@@ -13,6 +13,7 @@ type ContactStore interface {
 	FetchContacts(payload model.ContactFilter) ([]sql_models.Contact, error)
 	CreateContact(payload model.ContactFilter, precedence string, linkedId uint) (sql_models.Contact, error)
 	TogglePrimaryContact(payload model.ContactFilter, primaryID uint) ([]sql_models.Contact, error)
+	FetchAllByLinkedID(linkedID uint) (sql_models.Contact, []sql_models.Contact, error)
 }
 
 type contactRepo struct {
@@ -40,7 +41,26 @@ func (s *contactRepo) FetchContacts(payload model.ContactFilter) ([]sql_models.C
 	return primaryContact, nil
 
 }
+func (s *contactRepo) FetchAllByLinkedID(linkedID uint) (sql_models.Contact, []sql_models.Contact, error) {
+	funcDesc := "FetchAllByLinkedID | Repo"
 
+	var linkedContacts []sql_models.Contact
+	var primaryContact sql_models.Contact
+
+	res := s.db.Where("linkedId = ?", linkedID).
+		Find(&linkedContacts).Order("created_at ASC")
+	if res.Error != nil {
+		fmt.Printf("%s | errMsg: %s", funcDesc, res.Error)
+		return primaryContact, linkedContacts, fmt.Errorf("error while fetching linked contact")
+	}
+	res = s.db.Where("id = ?", linkedID).
+		First(&primaryContact).Order("created_at ASC")
+	if res.Error != nil {
+		fmt.Printf("%s | errMsg: %s", funcDesc, res.Error)
+		return primaryContact, linkedContacts, fmt.Errorf("error while fetching linked contact")
+	}
+	return primaryContact, linkedContacts, nil
+}
 func (s *contactRepo) CreateContact(payload model.ContactFilter, precedence string, linkedId uint) (sql_models.Contact, error) {
 	funcDesc := "CreateContact | Repo"
 

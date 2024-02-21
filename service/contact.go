@@ -49,8 +49,9 @@ func (s *contactService) FetchContacts(payload model.ContactFilter) (model.Conta
 			needToCreate = true
 		}
 
-		if needToCreate {
-			newContactResponse, err := s.contactStore.CreateContact(payload, consts.SecondaryPrecedence, contacts[0].ID)
+		primaryID := contacts[0].ID
+		if needToCreate && contacts[0].LinkPrecedence != consts.SecondaryPrecedence {
+			newContactResponse, err := s.contactStore.CreateContact(payload, consts.SecondaryPrecedence, primaryID)
 			if err != nil {
 				log.Printf("%s | errMsg: %s", funcName, err.Error())
 				return response, err
@@ -58,8 +59,14 @@ func (s *contactService) FetchContacts(payload model.ContactFilter) (model.Conta
 			contacts = append(contacts, newContactResponse)
 		}
 		if contacts[0].LinkPrecedence == consts.SecondaryPrecedence {
-
+			primaryID = contacts[0].LinkedID
 		}
+		primary, secondary, err := s.contactStore.FetchAllByLinkedID(primaryID)
+		if err != nil {
+			log.Printf("%s | errMsg: %s", funcName, err.Error())
+			return response, err
+		}
+		contacts = append([]sql_models.Contact{primary}, secondary...)
 		return PrepareResponseStructure(contacts), nil
 	default:
 		primaryContactID := contacts[0].ID
