@@ -62,6 +62,24 @@ response:
 }
 }
 
+to run it in local follow the below steps
+step 1
+clone the repo:
+git clone - https://github.com/suresh024/identity_reconciliation.git
+
+step -2
+add config file:
+cd identity_reconciliation ---> come to repo path
+vi Config.env
+
+PSQL_DB_URL= please reach out to me for db url
+PORT=4993
+
+step -3 
+start server:
+go run main.go
+
+
 Please reach out to me for config data
 
 Name - suresh
