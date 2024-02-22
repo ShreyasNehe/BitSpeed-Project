@@ -67,5 +67,7 @@ Please reach out to me for config data
 Name - suresh
 LinkedIn - https://www.linkedin.com/in/sureshchalla024/
 Naukari - https://www.naukri.com/mnjuser/profile?id=&altresid
+Skills - Golang, Python, MongoDBDb, MySQL, Kafka, Redis, JS, ReactJS
+as a tech enthusiast Willing to learn new technologies
 
 Please contact on schalla024@gmail.com for more info 
