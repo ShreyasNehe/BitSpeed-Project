@@ -30,9 +30,22 @@ func (s *contactRepo) FetchContacts(payload model.ContactFilter) ([]sql_models.C
 	funcDesc := "FetchPrimaryContact | Repo"
 
 	var primaryContact []sql_models.Contact
-	query := s.db.Debug().Where("email = ? OR phone_number = ?",
-		payload.Email, payload.PhoneNumber).Order("created_at ASC")
-	result := query.Find(&primaryContact)
+
+	query := s.db.Debug()
+
+	if payload.Email != nil {
+		query = query.Where("email = ?", payload.Email)
+	} else {
+		query = query.Where("email IS NULL")
+	}
+
+	if payload.PhoneNumber != nil {
+		query = query.Or("phone_number = ?", payload.PhoneNumber)
+	} else {
+		query = query.Or("phone_number IS NULL")
+	}
+
+	result := query.Order("created_at ASC").Find(&primaryContact)
 	if result.Error != nil && result.Error.Error() != "record not found" {
 		fmt.Printf("%s | errMsg: %s", funcDesc, result.Error)
 		return primaryContact, fmt.Errorf("error while searching contacts")
@@ -86,10 +99,21 @@ func (s *contactRepo) CreateContact(payload model.ContactFilter, precedence stri
 		return contactData, fmt.Errorf("error while insert contact")
 	}
 
-	res = s.db.Debug().Where("email=? AND phone_number=?",
-		contactData.Email, contactData.PhoneNumber).
-		Order("created_at ASC").
-		First(&response)
+	query := s.db.Debug()
+
+	if payload.Email != nil {
+		query = query.Where("email = ?", payload.Email)
+	} else {
+		query = query.Where("email IS NULL")
+	}
+
+	if payload.PhoneNumber != nil {
+		query = query.Or("phone_number = ?", payload.PhoneNumber)
+	} else {
+		query = query.Or("phone_number IS NULL")
+	}
+
+	res = query.Order("created_at ASC").First(&response)
 	if res.Error != nil {
 		fmt.Printf("%s | errMsg: %s", funcDesc, res.Error)
 		return response, fmt.Errorf("error while insert contact")

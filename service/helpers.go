@@ -19,11 +19,11 @@ func PrepareResponseStructure(contacts []sql_models.Contact) model.ContactRespon
 			primaryEmail = contact.Email
 			primaryPhoneNumber = contact.PhoneNumber
 		} else if contact.LinkPrecedence == "secondary" {
-			if _, ok := emailMap[contact.Email]; !ok && contact.Email != primaryEmail {
+			if _, ok := emailMap[contact.Email]; !ok && contact.Email != primaryEmail && contact.Email != "" {
 				secondaryEmails = append(secondaryEmails, contact.Email)
 				emailMap[contact.Email] = struct{}{}
 			}
-			if _, ok := phoneMap[contact.PhoneNumber]; !ok && contact.PhoneNumber != primaryPhoneNumber {
+			if _, ok := phoneMap[contact.PhoneNumber]; !ok && contact.PhoneNumber != primaryPhoneNumber && contact.PhoneNumber != "" {
 				secondaryPhoneNumber = append(secondaryPhoneNumber, contact.PhoneNumber)
 				phoneMap[contact.PhoneNumber] = struct{}{}
 			}
