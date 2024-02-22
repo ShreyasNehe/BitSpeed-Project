@@ -10,6 +10,7 @@ import (
 
 type ContactService interface {
 	FetchContacts(payload model.ContactFilter) (model.ContactResponse, error)
+	FetchAllContacts(page model.Page) ([]sql_models.Contact, error)
 }
 type contactService struct {
 	contactStore store.ContactStore
@@ -19,6 +20,10 @@ func NewContactService(repo store.Store) ContactService {
 	return &contactService{
 		contactStore: repo.ContactStore,
 	}
+}
+
+func (s *contactService) FetchAllContacts(page model.Page) ([]sql_models.Contact, error) {
+	return s.contactStore.FetchAllContacts(page)
 }
 
 func (s *contactService) FetchContacts(payload model.ContactFilter) (model.ContactResponse, error) {

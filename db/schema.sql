@@ -1,12 +1,12 @@
 CREATE TABLE IF NOT EXISTS contact (
         id SERIAL PRIMARY KEY,
-        phoneNumber VARCHAR(255),
+        phone_number VARCHAR(255),
         email VARCHAR(255),
-        linkedId INT,
-        linkPrecedence VARCHAR(10) CHECK (linkPrecedence IN ('primary', 'secondary')),
-        createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        deletedAt TIMESTAMP
+        linked_id INT,
+        link_precedence VARCHAR(10) CHECK (link_precedence IN ('primary', 'secondary')),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        deleted_at TIMESTAMP
     );
 
 CREATE INDEX IF NOT EXISTS idx_primary_contact ON contact (linkPrecedence) WHERE linkPrecedence = 'primary';

@@ -14,6 +14,7 @@ type ContactStore interface {
 	CreateContact(payload model.ContactFilter, precedence string, linkedId uint) (sql_models.Contact, error)
 	TogglePrimaryContact(payload model.ContactFilter, primaryID uint) ([]sql_models.Contact, error)
 	FetchAllByLinkedID(linkedID uint) (sql_models.Contact, []sql_models.Contact, error)
+	FetchAllContacts(page model.Page) ([]sql_models.Contact, error)
 }
 
 type contactRepo struct {
@@ -158,4 +159,20 @@ func (s *contactRepo) TogglePrimaryContact(payload model.ContactFilter, primaryI
 		return contacts, nil
 	}
 	return contacts, nil
+}
+
+func (s *contactRepo) FetchAllContacts(page model.Page) ([]sql_models.Contact, error) {
+	funcDesc := "FetchAllContacts | Repo"
+
+	var response []sql_models.Contact
+	res := s.db.Debug().
+		Offset(page.Start).
+		Limit(page.End).
+		Find(&response)
+	if res.Error != nil {
+		fmt.Printf("%s | errMsg: %s", funcDesc, res.Error)
+		return response, fmt.Errorf("error while fetching contacts")
+	}
+	return response, nil
+
 }

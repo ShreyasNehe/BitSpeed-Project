@@ -13,3 +13,8 @@ type ContactResponse struct {
 		SecondaryContactIds []uint   `json:"secondaryContactIds"`
 	} `json:"contact"`
 }
+
+type Page struct {
+	Start int `json:"start"`
+	End   int `json:"end"`
+}
